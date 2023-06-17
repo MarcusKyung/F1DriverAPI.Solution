@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using F1DriverApi.Models;
-using System.Linq;
+using Microsoft.AspNetCore.Cors;
+
 
 namespace F1DriverApi.Controllers.v2
 {
@@ -17,8 +18,9 @@ namespace F1DriverApi.Controllers.v2
       _db = db;
     }
 
-    // GET: api/Drivers/5
+    // GET: api/teams/5
     [HttpGet("{id}")]
+    [EnableCors("Policy1")]
     public async Task<ActionResult<Team>> GetTeam(int id)
     {
       Team team = await _db.Teams.FindAsync(id);
@@ -29,6 +31,15 @@ namespace F1DriverApi.Controllers.v2
       }
 
       return team;
+    }
+
+    [HttpGet("random")]
+    [EnableCors("Policy1")]
+    public async Task<ActionResult<Team>> GetRandomTeam()
+    {
+      List<Team> teams = await _db.Teams.ToListAsync();
+      int random = new Random().Next(teams.Count);
+      return teams[random];
     }
   } 
 }
