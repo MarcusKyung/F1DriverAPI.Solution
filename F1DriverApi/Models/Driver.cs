@@ -22,4 +22,14 @@ namespace F1DriverApi.Models
     [Required]
     public int WDCChampionships { get; set; }
   }
+
+  public class DriverStatistics
+  {
+    public int DriverCount { get; set; }
+    public double AverageAge { get; set; }
+    public int TotalRaceWins { get; set; }
+    public int TotalPodiums { get; set; }
+    public int TotalCareerPoints { get; set; }
+    public int TotalWDCChampionships { get; set; }
+  }
 }

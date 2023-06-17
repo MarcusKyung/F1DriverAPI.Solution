@@ -19,9 +19,19 @@ namespace F1DriverApi.Controllers.v2
 
     // GET api/drivers
     [HttpGet]
-    public async Task<List<Driver>> Get(string driverName, string driverNationality, string currentTeam, int driverAge, int raceWins, int podiums, int careerPoints, int wDCChampionships, string sortBy, bool isWDCChampion, int minPoints)
+    public async Task<List<Driver>> Get(int pageNumber, int pageSize, string driverName, string driverNationality, string currentTeam, int driverAge, int raceWins, int podiums, int careerPoints, int wDCChampionships, string sortBy, bool isWDCChampion, int minPoints)
     {
       IQueryable<Driver> query = _db.Drivers.AsQueryable();
+
+      if (pageNumber > 0)
+      {
+        query = query.Skip((pageNumber - 1) * pageSize);
+      }
+
+      if(pageSize > 0)
+      {
+        query = query.Take(pageSize);
+      }
 
       if (sortBy == "Points" || sortBy == "points")
       {
@@ -52,7 +62,6 @@ namespace F1DriverApi.Controllers.v2
       {
         query = query.Where(entry => entry.CareerPoints >= minPoints);
       }
-
 
       if (isWDCChampion == true)
       {
@@ -100,6 +109,30 @@ namespace F1DriverApi.Controllers.v2
       }
 
       return await query.ToListAsync();
+    }
+
+    // GET: api/Drivers/Statistics
+    [HttpGet("statistics")]
+    public ActionResult<DriverStatistics> GetDriverStatistics()
+    {
+        int driverCount = _db.Drivers.Count();
+        double averageAge = _db.Drivers.Average(entry => entry.DriverAge);
+        int totalRaceWins = _db.Drivers.Sum(entry => entry.RaceWins);
+        int totalPodiums = _db.Drivers.Sum(entry => entry.Podiums);
+        int totalCareerPoints = _db.Drivers.Sum(entry => entry.CareerPoints);
+        int totalWDCChampionships = _db.Drivers.Sum(entry => entry.WDCChampionships);
+
+        DriverStatistics statistics = new DriverStatistics
+        {
+            DriverCount = driverCount,
+            AverageAge = averageAge,
+            TotalRaceWins = totalRaceWins,
+            TotalPodiums = totalPodiums,
+            TotalCareerPoints = totalCareerPoints,
+            TotalWDCChampionships = totalWDCChampionships
+        };
+
+        return statistics;
     }
 
     // GET: api/Drivers/5
