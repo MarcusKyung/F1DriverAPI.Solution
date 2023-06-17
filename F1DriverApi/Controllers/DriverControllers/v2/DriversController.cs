@@ -57,7 +57,7 @@ namespace F1DriverApi.Controllers.v2
       }
       else if (sortBy == "name" || sortBy == "Name")
       {
-      query = query.OrderByDescending(entry => entry.DriverName);    
+      query = query.OrderBy(entry => entry.DriverName);    
       }
 
       if (minPoints > 0)
