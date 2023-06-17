@@ -1,7 +1,7 @@
 # _F1 Driver API_
 
 #### By _**Marcus Kyung**_
-#### _API to get 2023 F1 Driver Information built with C#, ASP.NET Core, and MySQL_
+#### _API to get 2023 Formula 1 driver and team information and statistics, built with C#, ASP.NET Core, and MySQL_
 
 <br />
 
@@ -22,26 +22,25 @@
 
 * _C#_
 * _.NET_
-* _MySQL_
-* _MySQL Workbench_
+* _MySQL/MySQL Workbench_
 * _Postman_
 * _Swagger UI_
 * _Entity Framework_
-
+* _ASP.NET Core_
 
 ## Description
 
-_TravelAPI is an API used to track reviews for travel destinations around the world. The starting database is seeded with data for 20 reviews but the API supports full CRUD functionality to store additional reviews and to edit and delete existing ones. Reviews are queryable by destination, city, country, user, and rating. TravelApi v2 also supports pagination and querying results by page number and page size. This project was built using C#, Entity Framework Core, and MySQL._
+_This API is designed to catalog and display information on all 20 main Formula 1 drivers and 10 teams. This API supports full CRUD functionality for both teams and drivers._
 
 ## Setup/Installation Requirements
 
 * _Download project repository from GH to your local machine._
 * _Clone this repository to your desktop._
-* _Open your shell (e.g., Terminal or GitBash) and navigate to this project's production directory at ```./TravelAPi.Solution/TravelApi/```._
+* _Open a terminal window and navigate to this project's production directory at ```./F1DriverApi.Solution/F1DriverApi/```._
 
 #### To Configure and Access the Database:
 * _Within the production directory "TravelApi", create a new file called ``appsettings.json``._
-* _Within ```appsettings.json```, put the following code, replacing the "uid" and "pwd" values (in the brackets below) with your own username and password for MySQL. Also replace the "database" value with your desired database name._
+* _Within ```appsettings.json```, input the following code, replacing the "uid" and "pwd" values (in the brackets below) with your own username and password for MySQL. Also replace the "database" value with your desired database name._
 ```
 {
   "ConnectionStrings": {
@@ -49,143 +48,192 @@ _TravelAPI is an API used to track reviews for travel destinations around the wo
   }
 }
 ```
-* _Run the terminal command ```dotnet ef database update``` to create the initial MySQL database._
+* _Once complete, run the terminal command ```dotnet ef database update``` to create the initial MySQL database. The database will be seeded with data based on the included migrations files._
 
 #### To Run the API:
-* _Navigate to this project's production directory named "TravelApi"._
-* _Run ```dotnet watch run``` in the command line to run the API from your local port. This will also open up Swagger UI in your browser. At this point, you can begin making API calls._
+* _Navigate to this project's production directory named "F1DriverApi"._
+* _Run ```dotnet watch run``` in the command line to run the API in development mode from your local port. This will also open up Swagger UI in your browser. At this point, you can begin making API calls._
+* _Run ```dotnet run``` in the command line to run the API in production mode from your local port._
 * _To make a test a get request, click on the "Get" reviews route in the Swagger UI, then click the "try it out" button._
 * _Reference the endpoint urls, optional parameters, and example requests listed below. The TravelAPI supports Get, Post, Update, and Delete functionality._
 
 ## Endpoints
 ```
-GET http://localhost:5000/api/{v1/v2}/reviews/
-GET http://localhost:5000/api/{v1/v2}/reviews/{id}
-POST http://localhost:5000/api/{v1/v2}/reviews/
-PUT http://localhost:5000/api/{v1/v2}/reviews/{id}
-DELETE http://localhost:5000/api/{v1/v2}/reviews/{id}
-```
-Note: `{id}` is a variable and it should be replaced with the id number of the review you want to GET, PUT, or DELETE.
-Note: `{v1/v2}` indicates the version of the API you want to use. Version 2 contains all functionality of version 1 but also includes pagination for Get results.
+Driver Endpoints:
 
-## Optional Query String Parameters
-| Parameter   | Type        |  Required    | Description |
-| ----------- | ----------- | -----------  | ----------- | 
-| Destination | String      |   Required   | Returns reviews with a matching Destination value    |
-| Country     | String      |   Required   | Returns reviews with a matching Country value        |
-| City        | String      |   Required   | Returns reviews with a matching City value           |
-| Address     | String      | Not Required | Returns reviews with a matching Address value        |
-| UserName    | String      |   Required   | Returns reviews with a matching UserName value       |
-| Rating      | Int         |   Required   | Returns reviews with a matching Rating value         |
-| Description | String      |   Required   | Returns reviews with a matching Description value    |
-| Date        | DateTime    | Not Required | Returns reviews with a matching Date value           |
-| byRating    | String      | Not Required | Value of "true" orders the returned list by descending rating |
-| pageNumber  | Int         | Not Required | Returns reviews from the specified page number       |
-| pageSize    | Int         | Not Required | Controls the amount of reviews returned on each page |
+GET - https://localhost:5001/api/{v1/v2}/drivers/
+GET - https://localhost:5001/api/{v1/v2}/drivers/{id}
+GET - https://localhost:5001/api/v2/drivers/statistics
+POST - https://localhost:5001/api/{v1/v2}/drivers/
+PUT - https://localhost:5001/api/{v1/v2}/drivers/{id}
+DELETE - https://localhost:5001/api/{v1/v2}/drivers/{id}
+DELETE - https://localhost:5001/api/{v1/v2}/random
+
+Note: `{id}` is a variable and it should be replaced with the id number of the driver you want to GET, PUT, or DELETE.
+Note: `{v1/v2}` indicates the version of the API you want to use. Version 2 contains all functionality of version 1 but also includes pagination and additional query options for Get results.
+```
+
+```
+Team Endpoints:
+
+GET - https://localhost:5001/api/v2/teams/
+GET - https://localhost:5001/api/v2/teams/{id}
+POST - https://localhost:5001/api/v2/teams/
+PUT - https://localhost:5001/api/v2/teams/{id}
+DELETE - https://localhost:5001/api/v2/teams/{id}
+
+Note: `{id}` is a variable and it should be replaced with the id number of the team you want to GET, PUT, or DELETE.
+Note: `v2` indicates the version of the API you want to use. Version 2 contains access to team based endpoints.
+```
+
+
+## Optional Driver Query String Parameters 
+| Parameter             | Type        | Required     | Description                                                                   |
+| --------------------- | ----------- | ----------   | -----------                                                                   | 
+| DriverName            | String      | Required     | Returns drivers with a matching driver name value                             |
+| DriverNationality     | String      | Required     | Returns drivers with a matching driver nationality value                      |
+| CurrentTeam           | String      | Required     | Returns drivers with a matching driver current team value                     |
+| DriverAge             | String      | Requred      | Returns drivers with a matching driver age value                              |
+| RaceWins              | Int         | Required     | Returns drivers with a matching driver race wins value                        |
+| Podiums               | Int         | Required     | Returns drivers with a matching podium value                                  | 
+| CareerPoints          | Int         | Required     | Returns drivers with a matching career points value                           |
+| WDCChampionships      | Int         | Required     | Returns drivers with a matching WDC Championships value                       |
+| SortBy                | String      | Not Required | Sorts returned drivers by points, page, podiums, wins, championship, or name  |
+| IsWDCChampion         | Bool        | Not Required | Returns drivers who are WDC champions                                         |
+| MinPoints             | Int         | Not Required | Returns drivers over a minimum career points value                            |
+| PageNumber            | Int         | Not Required | Returns specified page of results                                             |
+| PageSize              | Int         | Not Required | Returns specified number of results per page                                  |
+
+## Optional Team Query String Parameters 
+| Parameter             | Type        | Required     | Description                                                                   |
+| --------------------- | ----------- | ----------   | -----------                                                                   | 
+| TeamName              | String      | Required     | Returns drivers with a matching driver name value                             |
+| TeamNationality       | String      | Required     | Returns drivers with a matching driver nationality value                      |
+| TeamPrincipal         | String      | Required     | Returns drivers with a matching driver current team value                     |
+| TeamBase              | String      | Requred      | Returns drivers with a matching driver age value                              |
+| TeamChampionships     | Int         | Required     | Returns drivers with a matching driver race wins value                        |
+| PageNumber            | Int         | Not Required | Returns specified page of results                                             |
+| PageSize              | Int         | Not Required | Returns specified number of results per page                                  |
+| SortBy                | String      | Not Required | Sorts returned drivers championships or name                                  |
+
 
 ## Example Get Requests
-* _To make an Api call for all reviews for destinations in Peru:_
-http://localhost:5000/api/{v1/v2}/reviews/?country=peru
-``
-[
-    {
-        "reviewId": 7,
-        "destination": "Machu Picchu",
-        "country": "Peru",
-        "city": "Cusco",
-        "address": "789 Inca Trail",
-        "userName": "HistoryBuff2021",
-        "rating": 9,
-        "description": "A mystical ancient city hidden in the mountains. The hike was challenging but rewarding!",
-        "date": "2021-09-02T00:00:00"
-    },
-    {
-        "reviewId": 15,
-        "destination": "Machu Picchu",
-        "country": "Peru",
-        "city": "Cusco",
-        "address": "789 Inca Trail",
-        "userName": "Adventurer123",
-        "rating": 9,
-        "description": "A once-in-a-lifetime experience. The ancient ruins are awe-inspiring!",
-        "date": "2023-05-30T00:00:00"
-    },
-    {
-        "reviewId": 19,
-        "destination": "Machu Picchu",
-        "country": "Peru",
-        "city": "Cusco",
-        "address": "789 Inca Trail",
-        "userName": "MountainHiker",
-        "rating": 9,
-        "description": "A challenging hike to reach the ancient ruins, but the view from the Sun Gate was worth it!",
-        "date": "2022-08-05T00:00:00"
-    }
-]
-``
-* _To make a call returning the first page of reviews, with 2 reviews listed per page:_
-http://localhost:5000/api/{v1/v2}/reviews/?pageNumber=1&pageSize=2
-``
-[
-    {
-        "reviewId": 1,
-        "destination": "Waikiki Beach",
-        "country": "United States",
-        "city": "Honolulu",
-        "address": "123 Beach st",
-        "userName": "Mr_ReviewGuy",
-        "rating": 9,
-        "description": "Lovely vacation destination with great weather. No spiders at all!",
-        "date": "2019-12-25T00:00:00"
-    },
-    {
-        "reviewId": 2,
-        "destination": "Coronado",
-        "country": "United States",
-        "city": "San Diego",
-        "address": null,
-        "userName": "Marcus",
-        "rating": 7,
-        "description": "Sunny San Diego offers a perfect blend of beach bliss and urban spiders",
-        "date": "2006-07-25T00:00:00"
-    }
-]
-``
+* _To make an Api call for all drivers for RedBull Racing:_
+https://localhost:5001/api/v2/Drivers?currentTeam=Red%20Bull%20Racing&sortBy=name
 
-## Additional Requirements for Post Request
-* _POST requests http://localhost:5000/api/{v1/v2}/reviews/ require JSON body formatting shown below._
 ```
+[
+  {
+    "driverId": 1,
+    "driverName": "Max Verstappen",
+    "driverNationality": "Dutch",
+    "currentTeam": "Red Bull Racing",
+    "driverAge": 25,
+    "raceWins": 40,
+    "podiums": 84,
+    "careerPoints": 2181,
+    "wdcChampionships": 2
+  },
+  {
+    "driverId": 2,
+    "driverName": "Sergio Perez",
+    "driverNationality": "Mexican",
+    "currentTeam": "Red Bull Racing",
+    "driverAge": 33,
+    "raceWins": 6,
+    "podiums": 30,
+    "careerPoints": 1318,
+    "wdcChampionships": 0
+  }
+]
+```
+
+* _To make a call returning the first page of drivers, with 2 drivers listed per page:_
+https://localhost:5001/api/v2/Drivers?pageNumber=1&pageSize=2
+```
+[
+  {
+    "driverId": 1,
+    "driverName": "Max Verstappen",
+    "driverNationality": "Dutch",
+    "currentTeam": "Red Bull Racing",
+    "driverAge": 25,
+    "raceWins": 40,
+    "podiums": 84,
+    "careerPoints": 2181,
+    "wdcChampionships": 2
+  },
+  {
+    "driverId": 2,
+    "driverName": "Sergio Perez",
+    "driverNationality": "Mexican",
+    "currentTeam": "Red Bull Racing",
+    "driverAge": 33,
+    "raceWins": 6,
+    "podiums": 30,
+    "careerPoints": 1318,
+    "wdcChampionships": 0
+  }
+]
+```
+
+## Additional Requirements for Driver/Team Post Request
+* _POST requests for drivers https://localhost:5001/api/{v1/v2}/drivers/ require JSON body formatting shown below._
+* _POST requests for teams https://localhost:5001/api/v2/teams/ require JSON body formatting shown below._
+```
+POST Request for Drivers Format:
 {
-  "Destination": "Machu Picchu",
-  "Country": "Peru",
-  "City": "Cusco",
-  "Address": "789 Inca Trail"
-  "UserName": "Mr.Review",
-  "Rating": 8,
-  "Description": "A challenging hike to reach the ancient ruins, but the view from the Sun Gate was worth it!",
-  "Date": new DateTime(2022, 08, 05)
+  "driverName": "string",
+  "driverNationality": "string",
+  "currentTeam": "string",
+  "driverAge": 0,
+  "raceWins": 0,
+  "podiums": 0,
+  "careerPoints": 0,
+  "wdcChampionships": 0
+}
+
+POST Request for Teams Format:
+{
+  "teamName": "string",
+  "teamNationality": "string",
+  "teamPrincipal": "string",
+  "teamBase": "string",
+  "teamChampionships": 0
 }
 ```
 
-## Additional Requirements for Put Request
-* _PUT requests http://localhost:5000/api/{v1/v2}/reviews/{id} require JSON body formatting shown below._
+## Additional Requirements for Driver/Team Put Request
+* _PUT requests for drivers https://localhost:5001/api/{v1/v2}/drivers/{id} require JSON body formatting shown below._
+* _PUT requests for teams https://localhost:5001/api/v2/teams/{id} require JSON body formatting shown below._
 ```
+Driver PUT Request Format:
 {
-  "ReviewId": 1,
-  "Destination": "Machu Picchu",
-  "Country": "Peru",
-  "City": "Cusco",
-  "Address": "789 Inca Trail"
-  "UserName": "Mr.Review",
-  "Rating": 8,
-  "Description": "A challenging hike to reach the ancient ruins, but the view from the Sun Gate was worth it!",
-  "Date": new DateTime(2022, 08, 05)
+  "driverId": 0,
+  "driverName": "string",
+  "driverNationality": "string",
+  "currentTeam": "string",
+  "driverAge": 0,
+  "raceWins": 0,
+  "podiums": 0,
+  "careerPoints": 0,
+  "wdcChampionships": 0
+}
+
+Team PUT Request Format:
+{
+  "teamId": 0,
+  "teamName": "string",
+  "teamNationality": "string",
+  "teamPrincipal": "string",
+  "teamBase": "string",
+  "teamChampionships": 0
 }
 ```
 
 ## Known Bugs
 
-* _No known issues as of 6/14/23_
+* _API not currently configured to display .5 points for applicable drivers. Drivers with point totals ending in .5 are rounded down to nearest point (6/17/23)_
 
 ## License
 
