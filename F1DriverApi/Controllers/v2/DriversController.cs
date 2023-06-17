@@ -19,7 +19,7 @@ namespace F1DriverApi.Controllers.v2
 
     // GET api/drivers
     [HttpGet]
-    public async Task<List<Driver>> Get(string driverName, string driverNationality, string currentTeam, int driverAge, int raceWins, int podiums, int careerPoints, int wDCChampionships, string sortBy, bool isWDCChampion)
+    public async Task<List<Driver>> Get(string driverName, string driverNationality, string currentTeam, int driverAge, int raceWins, int podiums, int careerPoints, int wDCChampionships, string sortBy, bool isWDCChampion, int minPoints)
     {
       IQueryable<Driver> query = _db.Drivers.AsQueryable();
 
@@ -46,6 +46,11 @@ namespace F1DriverApi.Controllers.v2
       else if (sortBy == "name" || sortBy == "Name")
       {
       query = query.OrderByDescending(entry => entry.DriverName);    
+      }
+
+      if (minPoints > 0)
+      {
+        query = query.Where(entry => entry.CareerPoints >= minPoints);
       }
 
 
