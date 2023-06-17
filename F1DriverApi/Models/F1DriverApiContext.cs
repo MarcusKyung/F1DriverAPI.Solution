@@ -5,6 +5,7 @@ namespace F1DriverApi.Models
   public class F1DriverApiContext : DbContext
   {
     public DbSet<Driver> Drivers { get; set; }
+    public DbSet<Team> Teams { get; set; }
 
     public F1DriverApiContext(DbContextOptions<F1DriverApiContext> options) : base(options)
     {
@@ -34,6 +35,20 @@ namespace F1DriverApi.Models
         new Driver { DriverId = 18, DriverName = "Alex Albon", DriverNationality = "Thai", CurrentTeam = "Williams Racing", DriverAge = 27, RaceWins = 0, Podiums = 2, CareerPoints = 202, WDCChampionships = 0 },
         new Driver { DriverId = 19, DriverName = "Nyck de Vries", DriverNationality = "Dutch", CurrentTeam = "Scuderia AlphaTauri", DriverAge = 28, RaceWins = 0, Podiums = 0, CareerPoints = 2, WDCChampionships = 0 },
         new Driver { DriverId = 20, DriverName = "Logan Sargeant", DriverNationality = "American", CurrentTeam = "Williams Racing", DriverAge = 22, RaceWins = 0, Podiums = 0, CareerPoints = 0, WDCChampionships = 0 }
+        );
+
+      builder.Entity<Team>()
+        .HasData(
+        new Team { TeamId = 1, TeamName = "Red Bull Racing", TeamNationality = "Austrian", TeamPrincipal = "Christian Horner", TeamBase = "Milton Keynes, United Kingdom", TeamChampionships = 5 },
+        new Team { TeamId = 2, TeamName = "Aston Martin", TeamNationality = "British", TeamPrincipal = "Mike Krack", TeamBase = "Silverstone, United Kingdom", TeamChampionships = 0 },
+        new Team { TeamId = 3, TeamName = "Mercedes-AMG Petronas F1 Team", TeamNationality = "German", TeamPrincipal = "Toto Wolff", TeamBase = "Brackley, United Kingdom", TeamChampionships = 9 },
+        new Team { TeamId = 4, TeamName = "Scuderia Ferrari", TeamNationality = "Italian", TeamPrincipal = "Frederic Vasseur", TeamBase = "Maranello, Italy", TeamChampionships = 16 },
+        new Team { TeamId = 5, TeamName = "Alpine", TeamNationality = "French", TeamPrincipal = "Otmar Szafnauer", TeamBase = "Enstone, United Kingdom", TeamChampionships = 0 },
+        new Team { TeamId = 6, TeamName = "McLaren F1 Team", TeamNationality = "British", TeamPrincipal = "Andrea Stella", TeamBase = "Woking, United Kingdom", TeamChampionships = 8 },
+        new Team { TeamId = 7, TeamName = "MoneyGram Haas F1 Team", TeamNationality = "American", TeamPrincipal = "Guenther Steiner", TeamBase = "Kannapolis, United States", TeamChampionships = 0 },
+        new Team { TeamId = 8, TeamName = "Alfa Romeo F1 Team", TeamNationality = "Swiss", TeamPrincipal = "Alessandro Alunni Bravi", TeamBase = "Hinwil, Switzerland", TeamChampionships = 0 },
+        new Team { TeamId = 9, TeamName = "Scuderia AlphaTauri", TeamNationality = "Italian", TeamPrincipal = "Franz Tost", TeamBase = "Faenza, Italy", TeamChampionships = 0 },
+        new Team { TeamId = 10, TeamName = "Williams Racing", TeamNationality = "British", TeamPrincipal = "James Vowles", TeamBase = "Grove, United Kingdom", TeamChampionships = 9 }
         );
     }
   }
