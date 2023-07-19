@@ -10,9 +10,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Policy1",
         policy =>
         {
-            policy.WithOrigins("http://example.com",
-                                "http://www.contoso.com",
-                                "http://cors-test.codehappy.dev");
+            policy.AllowAnyOrigin();
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
         });
     });
 
@@ -76,7 +76,7 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
-app.UseCors();
+app.UseCors("AllowAllOrigins"); // Use the permissive CORS policy
 
 app.UseStaticFiles();
 

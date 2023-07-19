@@ -25,17 +25,17 @@ namespace F1DriverApi.Controllers.v2
     {
       IQueryable<Driver> query = _db.Drivers.AsQueryable();
 
-      if (pageNumber > 0)
+      if (pageNumber > 0) //pagination logic
       {
         query = query.Skip((pageNumber - 1) * pageSize);
       }
 
-      if(pageSize > 0)
+      if(pageSize > 0) //pagination logic
       {
         query = query.Take(pageSize);
       }
 
-      if (sortBy == "Points" || sortBy == "points")
+      if (sortBy == "Points" || sortBy == "points") //Sorting logic
       {
         query = query.OrderByDescending(entry => entry.CareerPoints);
       } 
@@ -60,7 +60,7 @@ namespace F1DriverApi.Controllers.v2
       query = query.OrderBy(entry => entry.DriverName);    
       }
 
-      if (minPoints > 0)
+      if (minPoints > 0) //MinPoints query
       {
         query = query.Where(entry => entry.CareerPoints >= minPoints);
       }
@@ -72,7 +72,7 @@ namespace F1DriverApi.Controllers.v2
 
       if (driverName != null)
       {
-        query = query.Where(entry => entry.DriverName == driverName);
+        query = query.Where(entry => entry.DriverName.Contains(driverName)); //allows for search of partial matches
       }
 
       if (driverNationality != null)
