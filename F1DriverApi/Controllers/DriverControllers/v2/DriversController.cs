@@ -21,7 +21,7 @@ namespace F1DriverApi.Controllers.v2
     // GET api/drivers
     [HttpGet]
     [EnableCors("Policy1")]
-    public async Task<List<Driver>> Get(int pageNumber, int pageSize, string driverName, string driverNationality, string currentTeam, int driverAge, int raceWins, int podiums, int careerPoints, int wDCChampionships, string sortBy, bool isWDCChampion, int minPoints)
+    public async Task<List<Driver>> Get(int pageNumber, int pageSize, string driverName, string driverNationality, string currentTeam, int driverAge, int raceWins, int podiums, int careerPoints, int wDCChampionships, string sortBy, bool isWDCChampion, int minCareerPoints, int currentSeasonPoints)
     {
       IQueryable<Driver> query = _db.Drivers.AsQueryable();
 
@@ -59,10 +59,14 @@ namespace F1DriverApi.Controllers.v2
       {
       query = query.OrderBy(entry => entry.DriverName);    
       }
-
-      if (minPoints > 0) //MinPoints query
+      else if (sortBy == "currentSeasonPoints" || sortBy == "CurrentSeasonPoints")
       {
-        query = query.Where(entry => entry.CareerPoints >= minPoints);
+      query = query.OrderByDescending(entry => entry.currentSeasonPoints);    
+      }
+
+      if (minCareerPoints > 0) //MinPoints query
+      {
+        query = query.Where(entry => entry.CareerPoints >= minCareerPoints);
       }
 
       if (isWDCChampion == true)

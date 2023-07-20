@@ -21,6 +21,8 @@ namespace F1DriverApi.Models
     public int CareerPoints { get; set; }
     [Required]
     public int WDCChampionships { get; set; }
+    [Required]
+    public int currentSeasonPoints { get; set; }
   }
 
   public class DriverStatistics
